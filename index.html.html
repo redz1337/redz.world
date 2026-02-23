@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>redZ</title>
+<link rel="icon" type="image/png" href="https://cdn.discordapp.com/icons/1439936278023114765/84df0ff662e825550a427174ed74b0fd.png?size=1024">
+<meta property="og:title" content="@redZ">
+<meta property="og:description" content="sa ngalan ng redZ, amen!!!">
+<meta property="og:image" content="https://file.garden/aIRxY75TdDxAqDHm/IMG_20251227_175441-1-removebg-preview.png">
+<meta property="og:url" content="https://xenial.ct.ws/">
+<meta name="theme-color" content="#fff"> 
+<meta property="og:type" content="website">
+
+<link href="https://fonts.cdnfonts.com/css/digital-numbers" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+  :root {
+    --bg-url: url('https://cdn.discordapp.com/attachments/1471449770441576482/1475344611571404800/download_20260223_151233_0000.gif?ex=699d253d&is=699bd3bd&hm=61e8471f73d03dfb7987f8f907aa403d1b1743d9918f99b1556aac20c1185c4e&');
+    --card-bg: rgba(0, 0, 0, 0.7);
+    --glass: rgba(255, 255, 255, 0.1);
+    --accent: #fff;
+  }
+
+  #loading-screen {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #000; display: flex; justify-content: center; align-items: center;
+    z-index: 10000; transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.5s;
+    overflow: hidden;
+  }
+  #loading-video {
+    position: absolute; width: 100%; height: 100%; object-fit: cover;
+    opacity: 0.4; filter: grayscale(100%) contrast(120%); z-index: -1;
+  }
+  .loader-container { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+  .percent { font-family: 'Digital Numbers', sans-serif; font-size: 5rem; color: white; text-shadow: 0 0 25px rgba(255,255,255,0.8); }
+  .status-msg { font-family: 'Courier New', monospace; font-size: 0.8rem; letter-spacing: 5px; margin-top: 15px; opacity: 0.6; text-transform: uppercase; }
+  .progress-bar-wrap { width: 300px; height: 2px; background: rgba(255,255,255,0.1); margin-top: 25px; position: relative; }
+  #progress-bar { position: absolute; height: 100%; width: 0%; background: white; box-shadow: 0 0 15px white; }
+  .enter-btn { display: none; cursor: pointer; font-family: 'Courier New', monospace; font-size: 1.5rem; font-weight: bold; color: white; background: none; border: none; letter-spacing: 10px; text-transform: uppercase; animation: blink 1s infinite; }
+  .enter-btn::before { content: "[ "; } .enter-btn::after { content: " ]"; }
+
+  body { 
+    margin: 0; 
+    background: #000; 
+    color: #fff; 
+    font-family: 'Inter', sans-serif; 
+    min-height: 100vh; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    overflow-x: hidden; 
+  }
+
+  #main-content::before {
+    content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), var(--bg-url);
+    background-size: cover; background-position: center; z-index: -1;
+  }
+
+  .content-wrapper {
+    width: 90%; 
+    max-width: 900px; 
+    background: var(--glass); 
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1); 
+    border-radius: 30px; 
+    padding: 60px 20px;
+    text-align: center; 
+    opacity: 0; 
+    transform: scale(0.9);
+    transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+    margin: auto;
+  }
+
+  .content-visible { opacity: 1; transform: scale(1); }
+  .logo { width: 120px; border-radius: 50%; border: 3px solid #fff; padding: 5px; margin-bottom: 20px; box-shadow: 0 0 30px rgba(255,255,255,0.3); }
+  
+  h2 { font-family: 'Syncopate', sans-serif; font-size: 0.9rem; letter-spacing: 12px; margin: 20px 0 15px; opacity: 0.8; }
+
+  .profiles-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); 
+    gap: 15px; 
+    justify-items: center; 
+    margin-bottom: 30px; 
+    max-width: 600px; 
+    margin-left: auto; 
+    margin-right: auto; 
+  }
+
+  .profile {
+    width: 80px; height: 80px; border-radius: 20px; background: #111;
+    position: relative; cursor: pointer; transition: 0.4s ease; background-size: cover; border: 1px solid rgba(255,255,255,0.2);
+  }
+  .profile:hover { transform: translateY(-10px); border-color: #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+  .status-ring { position: absolute; right: -5px; bottom: -5px; width: 15px; height: 15px; border-radius: 50%; border: 2px solid #111; }
+
+  #user-view { display: none; flex-direction: column; align-items: center; position: relative; width: 100%; max-width: 500px; margin: 0 auto; }
+  .banner-img { width: 100%; height: 160px; object-fit: cover; background: #222; border-radius: 15px; margin-bottom: -60px; border: 1px solid rgba(255,255,255,0.1); }
+  .full-pfp { width: 110px; height: 110px; border-radius: 50%; border: 6px solid #111; background: #111; position: relative; z-index: 2; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+  .full-name { font-size: 1.6rem; font-family: 'Syncopate'; margin-top: 15px; letter-spacing: 2px; z-index: 2; }
+  .full-tag { font-family: 'Courier New', monospace; opacity: 0.5; font-size: 0.8rem; margin-bottom: 15px; z-index: 2; }
+  
+  .about-me-box { background: rgba(0,0,0,0.4); width: 100%; border-radius: 15px; padding: 20px; margin-top: 20px; text-align: left; border: 1px solid rgba(255,255,255,0.1); z-index: 2; }
+  .about-me-title { font-family: 'Syncopate'; font-size: 0.7rem; letter-spacing: 3px; margin-bottom: 10px; color: #aaa; }
+  .about-me-text { font-size: 0.9rem; line-height: 1.6; opacity: 0.9; white-space: pre-wrap; word-break: break-word; }
+
+  .full-socials { display: flex; gap: 20px; margin-top: 25px; z-index: 2; }
+  .full-socials a { color: #fff; font-size: 1.5rem; transition: 0.3s; opacity: 0.6; }
+  .full-socials a:hover { opacity: 1; transform: scale(1.1); }
+  
+  .back-btn { margin-top: 30px; cursor: pointer; font-family: 'Courier New', monospace; opacity: 0.4; letter-spacing: 4px; font-size: 0.7rem; text-transform: uppercase; z-index: 2; }
+  .back-btn:hover { opacity: 1; }
+
+  .hidden { opacity: 0 !important; visibility: hidden !important; }
+</style>
+</head>
+<body>
+
+<div id="loading-screen">
+  <video id="loading-video" autoplay loop muted playsinline>
+    <source src="https://cdn.discordapp.com/attachments/1471449770441576482/1475336532725338333/Screen_Recording_20260223_143710_YouTube_1.mp4?ex=699d1db7&is=699bcc37&hm=c0cb3245ad0ae6b051fd1ad510c57c8bc6bfd08fb49d015e75fe9dec99af50e6&" type="video/mp4">
+  </video>
+  <div class="loader-container">
+    <div class="percent" id="percent-text">00</div>
+    <div class="status-msg" id="status-msg">Initializing Systems...</div>
+    <div class="progress-bar-wrap"><div id="progress-bar"></div></div>
+    <button class="enter-btn" id="enter-btn" onclick="startSite()">Access</button>
+  </div>
+</div>
+
+<div class="content-wrapper" id="main-content">
+  <div id="grid-view">
+    <div class="logo-container"><img class="logo" src="https://cdn.discordapp.com/icons/1439936278023114765/84df0ff662e825550a427174ed74b0fd.png?size=1024" /></div>
+    
+    <h2>Hall of Fame</h2>
+    <div class="profiles-grid" id="fathers-grid"></div>
+    
+    <h2>Redz GanG</h2>
+    <div class="profiles-grid" id="team-grid"></div>
+  </div>
+
+  <div id="user-view">
+    <img id="view-banner" class="banner-img" src="" />
+    <img id="view-pfp" class="full-pfp" src="" />
+    <div id="view-name" class="full-name"></div>
+    <div id="view-tag" class="full-tag"></div>
+    <div id="view-status" style="font-size: 0.7rem; opacity: 0.6; letter-spacing: 2px;"></div>
+    
+    <div class="about-me-box">
+        <div class="about-me-title">ABOUT ME</div>
+        <div id="view-bio" class="about-me-text">Loading bio...</div>
+    </div>
+
+    <div class="full-socials">
+      <a id="link-ig" href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a id="link-gh" href="#" target="_blank"><i class="fab fa-github"></i></a>
+      <a id="link-yt" href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+    </div>
+    <div class="back-btn" onclick="goBack()">[ BACK TO MAIN ]</div>
+  </div>
+</div>
+
+<audio id="bg-music" src="https://file.garden/aYKs0zYLgge4rfJu/Red%20Z%20II%20%5Bbbw-_BrFWk4%5D.mp3" loop></audio>
+
+<script>
+const USERS = {
+  fathers: [
+    { id: "1462797423452749960", ig: "https://www.instagram.com/theyfw_jha?igsh=a3c2aTRra2x6d21t", gh: "#", yt: "https://youtube.com/@x4vyr?si=9Efvjh70tv8yutj_" },
+    { id: "1409142122644246558", ig: "#", gh: "#", yt: "#" }
+  ],
+  team: [
+    { id: "1462797423452749960", ig: "#", gh: "#", yt: "#" },
+    { id: "1462797423452749960", ig: "#", gh: "#", yt: "#" },
+    { id: "1462797423452749960", ig: "#", gh: "#", yt: "#" },
+    { id: "1462797423452749960", ig: "#", gh: "#", yt: "#" },
+    { id: "1462797423452749960", ig: "#", gh: "#", yt: "#" },
+    { id: "1462797423452749960", ig: "#", gh: "#", yt: "#" }
+  ]
+};
+
+const STATUS_COLORS = { online: "#43b581", idle: "#faa61a", dnd: "#f04747", offline: "#6e7681" };
+
+function init() {
+  renderGrid('fathers-grid', USERS.fathers);
+  renderGrid('team-grid', USERS.team);
+  runLoading();
+}
+
+function renderGrid(containerId, data) {
+  const container = document.getElementById(containerId);
+  data.forEach(user => {
+    const div = document.createElement('div');
+    div.className = 'profile';
+    div.innerHTML = `<div class="status-ring"></div>`;
+    div.onclick = () => showProfile(user);
+    fetch(`https://api.lanyard.rest/v1/users/${user.id}`).then(r => r.json()).then(d => {
+        if(d.success) {
+          const u = d.data.discord_user;
+          div.style.backgroundImage = `url('https://cdn.discordapp.com/avatars/${user.id}/${u.avatar}.png')`;
+          div.querySelector('.status-ring').style.background = STATUS_COLORS[d.data.discord_status];
+        }
+    });
+    container.appendChild(div);
+  });
+}
+
+function runLoading(callback) {
+  let count = 0;
+  const screen = document.getElementById('loading-screen');
+  const percentText = document.getElementById('percent-text');
+  const progressBar = document.getElementById('progress-bar');
+  const enterBtn = document.getElementById('enter-btn');
+  screen.classList.remove('hidden');
+  enterBtn.style.display = 'none';
+  percentText.style.display = 'block';
+  progressBar.parentElement.style.display = 'block';
+  const interval = setInterval(() => {
+    count += Math.floor(Math.random() * 4) + 2;
+    if (count >= 100) {
+      count = 100; clearInterval(interval);
+      percentText.style.display = 'none';
+      progressBar.parentElement.style.display = 'none';
+      enterBtn.style.display = 'block';
+      if(callback) callback();
+    }
+    percentText.innerText = count.toString().padStart(2, '0');
+    progressBar.style.width = count + "%";
+  }, 40);
+}
+
+function startSite() {
+  document.getElementById('loading-screen').classList.add('hidden');
+  document.getElementById('main-content').classList.add('content-visible');
+  document.getElementById('bg-music').play();
+}
+
+async function showProfile(user) {
+  runLoading(async () => {
+    const res = await fetch(`https://api.lanyard.rest/v1/users/${user.id}`);
+    const d = await res.json();
+    if(d.success) {
+      const u = d.data.discord_user;
+      const avatar = u.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${u.avatar}.png?size=1024` : `https://cdn.discordapp.com/embed/avatars/0.png`;
+      const banner = u.banner ? `https://cdn.discordapp.com/banners/${user.id}/${u.banner}.png?size=1024` : '';
+      
+      document.getElementById('view-pfp').src = avatar;
+      document.getElementById('view-banner').src = banner;
+      document.getElementById('view-banner').style.display = u.banner ? 'block' : 'none';
+      document.getElementById('view-name').innerText = u.global_name || u.username;
+      document.getElementById('view-tag').innerText = `@${u.username}`;
+      document.getElementById('view-status').innerText = d.data.discord_status.toUpperCase();
+      
+      let bioText = "No information provided.";
+      if (d.data.kv && d.data.kv.bio) {
+          bioText = d.data.kv.bio;
+      } else if (d.data.discord_user.bio) {
+          bioText = d.data.discord_user.bio;
+      } else if (d.data.activities && d.data.activities[0] && d.data.activities[0].state) {
+          bioText = d.data.activities[0].state;
+      }
+      
+      document.getElementById('view-bio').innerText = bioText;
+      document.getElementById('link-ig').href = user.ig;
+      document.getElementById('link-gh').href = user.gh;
+      document.getElementById('link-yt').href = user.yt;
+      document.getElementById('grid-view').style.display = 'none';
+      document.getElementById('user-view').style.display = 'flex';
+    }
+  });
+}
+
+function goBack() {
+  runLoading(() => {
+    document.getElementById('grid-view').style.display = 'block';
+    document.getElementById('user-view').style.display = 'none';
+  });
+}
+
+window.onload = init;
+</script>
+</body>
+</html>
