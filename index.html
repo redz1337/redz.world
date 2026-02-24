@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>redZ</title>
-<link rel="icon" type="image/png" href="https://cdn.discordapp.com/icons/1439936278023114765/84df0ff662e825550a427174ed74b0fd.png?size=1024">
+<title>redx</title>
+<link rel="icon" type="image/png" href="https://cdn.discordapp.com/icons/1439936278023114765/84df0ff662e825550a427174ed74_0fd.png?size=1024">
 <meta property="og:title" content="@redZ">
 <meta property="og:description" content="sa ngalan ng redZ, amen!!!">
-<meta property="og:image" content="https://images-ext-1.discordapp.net/external/IM6MiAlTwoeZ4DPgoQXEJTG7WC9ToP0ic_Ybjf5XUFI/https/file.garden/aZxScw6WOg9KnOwy/redZ%2520gallery%2520%25C2%25AE%2520%282%29.png?format=webp&quality=lossless">
+<meta property="og:image" content="https://file.garden/aZxScw6WOg9KnOwy/redZ%20gallery%20%C2%AE%20(2).png">
 <meta property="og:url" content="https://xenial.ct.ws/">
 <meta name="theme-color" content="#fff"> 
 <meta property="og:type" content="website">
@@ -22,6 +22,28 @@
     --card-bg: rgba(0, 0, 0, 0.7);
     --glass: rgba(255, 255, 255, 0.1);
     --accent: #fff;
+  }
+
+  * {
+    cursor: url('https://cur.cursors-4u.net/symbols/sym-1/sym49.cur'), auto !important;
+  }
+
+  .click-effect {
+    position: fixed; width: 40px; height: 40px;
+    background-image: url('https://cur.cursors-4u.net/symbols/sym-1/sym49.cur');
+    background-size: contain; background-repeat: no-repeat;
+    pointer-events: none; z-index: 99999; transform: translate(-50%, -50%);
+    animation: finger-pop 0.6s ease-out forwards;
+  }
+
+  @keyframes finger-pop {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(2.5) rotate(10deg); opacity: 0; }
+  }
+
+  #rainCanvas {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; pointer-events: none; opacity: 0.3;
   }
 
   #loading-screen {
@@ -43,82 +65,86 @@
   .enter-btn::before { content: "[ "; } .enter-btn::after { content: " ]"; }
 
   body { 
-    margin: 0; 
-    background: #000; 
-    color: #fff; 
-    font-family: 'Inter', sans-serif; 
-    min-height: 100vh; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    overflow-x: hidden; 
+    margin: 0; background: #000; color: #fff; font-family: 'Inter', sans-serif; 
+    min-height: 100vh; display: flex; justify-content: center; align-items: center; overflow-x: hidden; 
   }
 
   #main-content::before {
-    content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    content: ""; position: fixed; top: -5%; left: -5%; width: 110%; height: 110%;
     background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), var(--bg-url);
-    background-size: cover; background-position: center; z-index: -1;
+    background-size: cover; background-position: center; z-index: -2;
+    transition: transform 0.1s ease-out;
   }
 
   .content-wrapper {
-    width: 90%; 
-    max-width: 900px; 
-    background: var(--glass); 
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.1); 
-    border-radius: 30px; 
-    padding: 60px 20px;
-    text-align: center; 
-    opacity: 0; 
-    transform: scale(0.9);
-    transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
-    margin: auto;
+    width: 90%; max-width: 900px; background: var(--glass); backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 30px; padding: 60px 20px;
+    text-align: center; opacity: 0; transform: scale(0.9);
+    transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1); margin: 20px auto;
   }
 
   .content-visible { opacity: 1; transform: scale(1); }
   .logo { width: 120px; border-radius: 50%; border: 3px solid #fff; padding: 5px; margin-bottom: 20px; box-shadow: 0 0 30px rgba(255,255,255,0.3); }
-  
   h2 { font-family: 'Syncopate', sans-serif; font-size: 0.9rem; letter-spacing: 12px; margin: 20px 0 15px; opacity: 0.8; }
 
-  .profiles-grid { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); 
-    gap: 15px; 
-    justify-items: center; 
-    margin-bottom: 30px; 
-    max-width: 600px; 
-    margin-left: auto; 
-    margin-right: auto; 
-  }
+  .profiles-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; }
 
   .profile {
     width: 80px; height: 80px; border-radius: 20px; background: #111;
-    position: relative; cursor: pointer; transition: 0.4s ease; background-size: cover; border: 1px solid rgba(255,255,255,0.2);
+    position: relative; cursor: pointer; transition: 0.4s ease; background-size: cover; 
+    border: 1px solid rgba(255,255,255,0.2); overflow: hidden;
   }
-  .profile:hover { transform: translateY(-10px); border-color: #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-  .status-ring { position: absolute; right: -5px; bottom: -5px; width: 15px; height: 15px; border-radius: 50%; border: 2px solid #111; }
+  .profile::before {
+    content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: conic-gradient(transparent, transparent, transparent, #ff0000);
+    animation: rotate-border 4s linear infinite; z-index: 0; opacity: 0; transition: 0.3s;
+  }
+  .profile:hover::before { opacity: 1; }
+  .profile::after { content: ''; position: absolute; inset: 2px; background: inherit; background-size: cover; border-radius: 18px; z-index: 1; }
+  @keyframes rotate-border { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  .profile:hover { transform: translateY(-10px); border-color: #fff; box-shadow: 0 10px 20px rgba(255,0,0,0.3); }
+
+  .glitch { position: relative; display: inline-block; }
+  .glitch::before, .glitch::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.8; }
+  .glitch::before { color: #ff0000; z-index: -1; animation: glitch-anim 0.3s infinite; }
+  .glitch::after { color: #00ffff; z-index: -2; animation: glitch-anim 0.3s reverse infinite; }
+  @keyframes glitch-anim { 
+    0% { transform: translate(0); } 
+    20% { transform: translate(-2px, 2px); } 
+    40% { transform: translate(-2px, -2px); } 
+    60% { transform: translate(2px, 2px); } 
+    80% { transform: translate(2px, -2px); } 
+    100% { transform: translate(0); } 
+  }
+
+  .gallery-nav { display: flex; justify-content: center; gap: 20px; margin: 30px 0 20px; }
+  .gallery-btn { background: none; border: 1px solid rgba(255,255,255,0.2); color: #fff; font-family: 'Syncopate'; font-size: 0.7rem; letter-spacing: 2px; padding: 10px 20px; border-radius: 10px; cursor: pointer; transition: 0.3s; }
+  .gallery-btn.active { background: #fff; color: #000; border-color: #fff; }
+  .gallery-content { display: none; flex-wrap: wrap; justify-content: center; gap: 15px; }
+  .gallery-content.active { display: flex; }
+  .gallery-item { width: 150px; height: 100px; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: 0.3s; position: relative; }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+  .sv-link { position: absolute; bottom: 0; background: rgba(0,0,0,0.7); width: 100%; font-size: 0.6rem; padding: 5px 0; font-family: 'Syncopate'; }
 
   #user-view { display: none; flex-direction: column; align-items: center; position: relative; width: 100%; max-width: 500px; margin: 0 auto; }
   .banner-img { width: 100%; height: 160px; object-fit: cover; background: #222; border-radius: 15px; margin-bottom: -60px; border: 1px solid rgba(255,255,255,0.1); }
   .full-pfp { width: 110px; height: 110px; border-radius: 50%; border: 6px solid #111; background: #111; position: relative; z-index: 2; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
   .full-name { font-size: 1.6rem; font-family: 'Syncopate'; margin-top: 15px; letter-spacing: 2px; z-index: 2; }
   .full-tag { font-family: 'Courier New', monospace; opacity: 0.5; font-size: 0.8rem; margin-bottom: 15px; z-index: 2; }
-  
   .about-me-box { background: rgba(0,0,0,0.4); width: 100%; border-radius: 15px; padding: 20px; margin-top: 20px; text-align: left; border: 1px solid rgba(255,255,255,0.1); z-index: 2; }
   .about-me-title { font-family: 'Syncopate'; font-size: 0.7rem; letter-spacing: 3px; margin-bottom: 10px; color: #aaa; }
-  .about-me-text { font-size: 0.9rem; line-height: 1.6; opacity: 0.9; white-space: pre-wrap; word-break: break-word; }
-
+  .about-me-text { font-size: 0.9rem; line-height: 1.6; opacity: 0.9; white-space: pre-wrap; word-break: break-word; min-height: 1.2em; }
+  .about-me-text::after { content: '|'; animation: blink 1s infinite; margin-left: 2px; color: #fff; }
   .full-socials { display: flex; gap: 20px; margin-top: 25px; z-index: 2; }
   .full-socials a { color: #fff; font-size: 1.5rem; transition: 0.3s; opacity: 0.6; }
-  .full-socials a:hover { opacity: 1; transform: scale(1.1); }
-  
   .back-btn { margin-top: 30px; cursor: pointer; font-family: 'Courier New', monospace; opacity: 0.4; letter-spacing: 4px; font-size: 0.7rem; text-transform: uppercase; z-index: 2; }
-  .back-btn:hover { opacity: 1; }
-
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
   .hidden { opacity: 0 !important; visibility: hidden !important; }
 </style>
 </head>
-<body>
+<body onclick="createClickEffect(event)">
+
+<canvas id="rainCanvas"></canvas>
 
 <div id="loading-screen">
   <video id="loading-video" autoplay loop muted playsinline>
@@ -134,27 +160,37 @@
 
 <div class="content-wrapper" id="main-content">
   <div id="grid-view">
-    <div class="logo-container"><img class="logo" src="https://cdn.discordapp.com/icons/1439936278023114765/84df0ff662e825550a427174ed74b0fd.png?size=1024" /></div>
-    
+    <img class="logo" src="https://cdn.discordapp.com/icons/1439936278023114765/84df0ff662e825550a427174ed74b0fd.png?size=1024" />
     <h2>Hall of Fame</h2>
     <div class="profiles-grid" id="fathers-grid"></div>
-    
     <h2>Redz GanG</h2>
     <div class="profiles-grid" id="team-grid"></div>
+    <hr style="border: 0; height: 1px; background: rgba(255,255,255,0.1); margin: 40px 0;">
+    <h2>MAIN REDZ</h2>
+    <div class="gallery-nav">
+        <button class="gallery-btn active" onclick="switchGallery('memories')">Memories</button>
+        <button class="gallery-btn" onclick="switchGallery('affiliated')">Affiliated SV</button>
+    </div>
+    <div id="gallery-memories" class="gallery-content active">
+        <div class="gallery-item"><img src="https://file.garden/aZxScw6WOg9KnOwy/redZ%20gallery%20%C2%AE%20(2).png"></div>
+        <div class="gallery-item"><img src="https://file.garden/aZxScw6WOg9KnOwy/redZ%20gallery%20%C2%AE%20(2).png"></div>
+        <div class="gallery-item"><img src="https://file.garden/aZxScw6WOg9KnOwy/redZ%20gallery%20%C2%AE%20(2).png"></div>
+    </div>
+    <div id="gallery-affiliated" class="gallery-content">
+        <div class="gallery-item" onclick="window.open('https://discord.gg/k7XJT7Mh75', '_blank')"><img src="https://cdn.discordapp.com/attachments/1471449770441576482/1475505518360395998/file_00000000feb87208aeeecf036290ca6c.png?ex=699dbb19&is=699c6999&hm=b3b97f0a6e168dbeb08498d2544ab4f24bd6ab0bb47237a4a8be033869c25c83&"><div class="sv-link">JOIN SV</div></div>
+        <div class="gallery-item" onclick="window.open('https://discord.gg/x6xWf8uyVA', '_blank')"><img src="https://cdn.discordapp.com/attachments/1472510065436004545/1475416431347630171/Comp_2.gif?ex=699d6821&is=699c16a1&hm=c3cf8dc005f53bc3a4d2987272fc43f72b4e89f3b1f5234dd399a5028ce0b18d&"><div class="sv-link">JOIN SV</div></div>
+    </div>
   </div>
-
   <div id="user-view">
     <img id="view-banner" class="banner-img" src="" />
     <img id="view-pfp" class="full-pfp" src="" />
-    <div id="view-name" class="full-name"></div>
+    <div id="view-name" class="full-name glitch" data-text=""></div>
     <div id="view-tag" class="full-tag"></div>
     <div id="view-status" style="font-size: 0.7rem; opacity: 0.6; letter-spacing: 2px;"></div>
-    
     <div class="about-me-box">
         <div class="about-me-title">ABOUT ME</div>
-        <div id="view-bio" class="about-me-text">Loading bio...</div>
+        <div id="view-bio" class="about-me-text"></div>
     </div>
-
     <div class="full-socials">
       <a id="link-ig" href="#" target="_blank"><i class="fab fa-instagram"></i></a>
       <a id="link-gh" href="#" target="_blank"><i class="fab fa-github"></i></a>
@@ -167,14 +203,62 @@
 <audio id="bg-music" src="https://file.garden/aYKs0zYLgge4rfJu/Red%20Z%20II%20%5Bbbw-_BrFWk4%5D.mp3" loop></audio>
 
 <script>
+// PARALLAX EFFECT
+document.addEventListener('mousemove', (e) => {
+  const x = (window.innerWidth / 2 - e.pageX) / 50;
+  const y = (window.innerHeight / 2 - e.pageY) / 50;
+  const style = document.getElementById('parallax-style') || document.createElement('style');
+  style.id = 'parallax-style';
+  style.innerHTML = `#main-content::before { transform: translate(${x}px, ${y}px); }`;
+  document.head.appendChild(style);
+});
+
+let typewriterInterval;
+function typeWriter(text, elementId) {
+  const element = document.getElementById(elementId);
+  element.innerText = ""; let i = 0; clearInterval(typewriterInterval);
+  typewriterInterval = setInterval(() => { if (i < text.length) { element.innerText += text.charAt(i); i++; } else clearInterval(typewriterInterval); }, 30);
+}
+
+function createClickEffect(e) {
+  const effect = document.createElement('div');
+  effect.className = 'click-effect';
+  effect.style.left = e.clientX + 'px'; effect.style.top = e.clientY + 'px';
+  document.body.appendChild(effect); setTimeout(() => effect.remove(), 600);
+}
+
+const canvas = document.getElementById('rainCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+const nameToRain = "REDZ"; const fontSize = 16; const columns = canvas.width / fontSize; const drops = [];
+for (let x = 0; x < columns; x++) drops[x] = 1;
+function drawRain() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#FFF'; ctx.font = fontSize + 'px Courier New';
+    for (let i = 0; i < drops.length; i++) {
+        const text = nameToRain.charAt(Math.floor(Math.random() * nameToRain.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+    }
+}
+setInterval(drawRain, 33);
+
+function switchGallery(type) {
+    document.querySelectorAll('.gallery-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.gallery-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById('gallery-' + type).classList.add('active');
+    event.currentTarget.classList.add('active');
+}
+
 const USERS = {
   fathers: [
     { id: "1462797423452749960", ig: "https://www.instagram.com/theyfw_jha?igsh=a3c2aTRra2x6d21t", gh: "#", yt: "https://youtube.com/@x4vyr?si=9Efvjh70tv8yutj_" },
-    { id: "1409142122644246558", ig: "#", gh: "#", yt: "#" }
+    { id: "1409142122644246558", ig: "https://www.instagram.com/youngslimevalentino?igsh=MXRxb284M3M1eWZhbQ%3D%3D&utm_source=qr", gh: "https://github.com/redz1337", yt: "https://youtube.com/@htrb_1337?si=0B5k6unfUOHeCygE" }
   ],
   team: [
-    { id: "1462797423452749960", ig: "#", gh: "#", yt: "#" },
-    { id: "1462797423452749960", ig: "#", gh: "#", yt: "#" },
+    { id: "1354624403303956550", ig: "https://www.instagram.com/zeemillaa/", gh: "#", yt: "https://www.youtube.com/channel/UCfcpSWxINEqNfWnixuYyPgg" },
+    { id: "1460786136980000981", ig: "https://www.instagram.com/ughsacri?igsh=aHhiOHF2azZscWNt&utm_source=qr", gh: "#", yt: "https://youtube.com/@sacrimusic?si=UOTkn7863pXWMKZo" },
     { id: "1462797423452749960", ig: "#", gh: "#", yt: "#" },
     { id: "1462797423452749960", ig: "#", gh: "#", yt: "#" },
     { id: "1462797423452749960", ig: "#", gh: "#", yt: "#" },
@@ -182,26 +266,18 @@ const USERS = {
   ]
 };
 
-const STATUS_COLORS = { online: "#43b581", idle: "#faa61a", dnd: "#f04747", offline: "#6e7681" };
-
-function init() {
-  renderGrid('fathers-grid', USERS.fathers);
-  renderGrid('team-grid', USERS.team);
-  runLoading();
-}
+function init() { renderGrid('fathers-grid', USERS.fathers); renderGrid('team-grid', USERS.team); runLoading(); }
 
 function renderGrid(containerId, data) {
   const container = document.getElementById(containerId);
   data.forEach(user => {
     const div = document.createElement('div');
-    div.className = 'profile';
-    div.innerHTML = `<div class="status-ring"></div>`;
+    div.className = 'profile'; 
     div.onclick = () => showProfile(user);
     fetch(`https://api.lanyard.rest/v1/users/${user.id}`).then(r => r.json()).then(d => {
         if(d.success) {
           const u = d.data.discord_user;
           div.style.backgroundImage = `url('https://cdn.discordapp.com/avatars/${user.id}/${u.avatar}.png')`;
-          div.querySelector('.status-ring').style.background = STATUS_COLORS[d.data.discord_status];
         }
     });
     container.appendChild(div);
@@ -209,33 +285,38 @@ function renderGrid(containerId, data) {
 }
 
 function runLoading(callback) {
-  let count = 0;
-  const screen = document.getElementById('loading-screen');
+  const loader = document.getElementById('loading-screen');
   const percentText = document.getElementById('percent-text');
   const progressBar = document.getElementById('progress-bar');
   const enterBtn = document.getElementById('enter-btn');
-  screen.classList.remove('hidden');
-  enterBtn.style.display = 'none';
+  
+  loader.classList.remove('hidden');
   percentText.style.display = 'block';
-  progressBar.parentElement.style.display = 'block';
+  document.querySelector('.progress-bar-wrap').style.display = 'block';
+  enterBtn.style.display = 'none';
+  percentText.innerText = "00";
+  progressBar.style.width = "0%";
+
+  let count = 0;
   const interval = setInterval(() => {
     count += Math.floor(Math.random() * 4) + 2;
-    if (count >= 100) {
-      count = 100; clearInterval(interval);
-      percentText.style.display = 'none';
-      progressBar.parentElement.style.display = 'none';
-      enterBtn.style.display = 'block';
-      if(callback) callback();
+    if (count >= 100) { 
+      count = 100; 
+      clearInterval(interval); 
+      percentText.style.display = 'none'; 
+      document.querySelector('.progress-bar-wrap').style.display = 'none'; 
+      enterBtn.style.display = 'block'; 
+      if(callback) callback(); 
     }
-    percentText.innerText = count.toString().padStart(2, '0');
+    percentText.innerText = count.toString().padStart(2, '0'); 
     progressBar.style.width = count + "%";
   }, 40);
 }
 
-function startSite() {
-  document.getElementById('loading-screen').classList.add('hidden');
-  document.getElementById('main-content').classList.add('content-visible');
-  document.getElementById('bg-music').play();
+function startSite() { 
+  document.getElementById('loading-screen').classList.add('hidden'); 
+  document.getElementById('main-content').classList.add('content-visible'); 
+  document.getElementById('bg-music').play(); 
 }
 
 async function showProfile(user) {
@@ -244,44 +325,41 @@ async function showProfile(user) {
     const d = await res.json();
     if(d.success) {
       const u = d.data.discord_user;
-      const avatar = u.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${u.avatar}.png?size=1024` : `https://cdn.discordapp.com/embed/avatars/0.png`;
-      const banner = u.banner ? `https://cdn.discordapp.com/banners/${user.id}/${u.banner}.png?size=1024` : '';
+      const data = d.data;
+
+      const customStatus = data.activities.find(a => a.type === 4)?.state || "";
+      const activityStatus = data.activities.find(a => a.type === 0)?.name || "";
+      const finalBio = customStatus || activityStatus || "No custom status set.";
+
+      const nameEl = document.getElementById('view-name');
+      const nameVal = u.global_name || u.username;
+      nameEl.innerText = nameVal; nameEl.setAttribute('data-text', nameVal);
       
-      document.getElementById('view-pfp').src = avatar;
-      document.getElementById('view-banner').src = banner;
-      document.getElementById('view-banner').style.display = u.banner ? 'block' : 'none';
-      document.getElementById('view-name').innerText = u.global_name || u.username;
+      document.getElementById('view-pfp').src = `https://cdn.discordapp.com/avatars/${user.id}/${u.avatar}.png?size=1024`;
+      document.getElementById('view-banner').src = u.banner ? `https://cdn.discordapp.com/banners/${user.id}/${u.banner}.png?size=1024` : '';
       document.getElementById('view-tag').innerText = `@${u.username}`;
-      document.getElementById('view-status').innerText = d.data.discord_status.toUpperCase();
-      
-      let bioText = "No information provided.";
-      if (d.data.kv && d.data.kv.bio) {
-          bioText = d.data.kv.bio;
-      } else if (d.data.discord_user.bio) {
-          bioText = d.data.discord_user.bio;
-      } else if (d.data.activities && d.data.activities[0] && d.data.activities[0].state) {
-          bioText = d.data.activities[0].state;
-      }
-      
-      document.getElementById('view-bio').innerText = bioText;
-      document.getElementById('link-ig').href = user.ig;
-      document.getElementById('link-gh').href = user.gh;
-      document.getElementById('link-yt').href = user.yt;
+      document.getElementById('view-status').innerText = data.discord_status.toUpperCase();
+
       document.getElementById('grid-view').style.display = 'none';
       document.getElementById('user-view').style.display = 'flex';
+      
+      setTimeout(() => typeWriter(finalBio, 'view-bio'), 500);
+      
+      document.getElementById('link-ig').href = user.ig; 
+      document.getElementById('link-gh').href = user.gh; 
+      document.getElementById('link-yt').href = user.yt;
     }
   });
 }
 
-function goBack() {
-  runLoading(() => {
-    document.getElementById('grid-view').style.display = 'block';
-    document.getElementById('user-view').style.display = 'none';
-  });
+function goBack() { 
+  runLoading(() => { 
+    document.getElementById('grid-view').style.display = 'block'; 
+    document.getElementById('user-view').style.display = 'none'; 
+  }); 
 }
-
 window.onload = init;
 </script>
 </body>
 </html>
-
+    
