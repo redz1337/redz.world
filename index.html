@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>redZ gallery</title>
+<title>redx</title>
 <link rel="icon" type="image/png" href="https://cdn.discordapp.com/icons/1439936278023114765/84df0ff662e825550a427174ed74_0fd.png?size=1024">
 <meta property="og:title" content="@redZ">
 <meta property="og:description" content="sa ngalan ng redZ, amen!!!">
@@ -148,7 +148,7 @@
 
 <div id="loading-screen">
   <video id="loading-video" autoplay loop muted playsinline>
-    <source src="https://cdn.discordapp.com/attachments/1471449770441576482/1475336532725338333/Screen_Recording_20260223_143710_YouTube_1.mp4?ex=699d1db7&is=699bcc37&hm=c0cb3245ad0ae6b051fd1ad510c57c8bc6bfd08fb49d015e75fe9dec99af50e6&" type="video/mp4">
+    <source src="https://media.discordapp.net/attachments/1471449770441576482/1475336532725338333/Screen_Recording_20260223_143710_YouTube_1.mp4?ex=699fc0b7&is=699e6f37&hm=9cc9f57c83ceedaf58a84bcb29baa7024dd0ac4613af15074eca9e4aa1ac0bbb&" type="video/mp4">
   </video>
   <div class="loader-container">
     <div class="percent" id="percent-text">00</div>
@@ -173,8 +173,8 @@
     </div>
     <div id="gallery-memories" class="gallery-content active">
         <div class="gallery-item"><img src="https://file.garden/aZxScw6WOg9KnOwy/redZ%20gallery%20%C2%AE%20(2).png"></div>
-        <div class="gallery-item"><img src="https://file.garden/aZxScw6WOg9KnOwy/redZ%20gallery%20%C2%AE%20(2).png"></div>
-        <div class="gallery-item"><img src="https://file.garden/aZxScw6WOg9KnOwy/redZ%20gallery%20%C2%AE%20(2).png"></div>
+        <div class="gallery-item"><img src="https://cdn.discordapp.com/attachments/1471449770441576482/1476067228137951424/redZ_7.png?ex=699fc63b&is=699e74bb&hm=3488dfb4b19de8d5abef298f201d9c44bcf4efccfc2576ef4e8c16acb54bc801&"></div>
+        <div class="gallery-item"><img src="https://cdn.discordapp.com/attachments/1471449770441576482/1475828372650197102/redZ_5.png?ex=699f9087&is=699e3f07&hm=a44fdf3accb2b88037de7c683a03657615d29e2412b676cf9c2c38c5631d46ef&"></div>
     </div>
     <div id="gallery-affiliated" class="gallery-content">
         <div class="gallery-item" onclick="window.open('https://discord.gg/k7XJT7Mh75', '_blank')"><img src="https://cdn.discordapp.com/attachments/1471449770441576482/1475505518360395998/file_00000000feb87208aeeecf036290ca6c.png?ex=699dbb19&is=699c6999&hm=b3b97f0a6e168dbeb08498d2544ab4f24bd6ab0bb47237a4a8be033869c25c83&"><div class="sv-link">JOIN SV</div></div>
@@ -182,8 +182,8 @@
     </div>
   </div>
   <div id="user-view">
-    <img id="view-banner" class="banner-img" src="" />
-    <img id="view-pfp" class="full-pfp" src="" />
+    <img id="view-banner" class="banner-img" src="https://cdn.discordapp.com/attachments/1471449770441576482/1476067228137951424/redZ_7.png?ex=699fc63b&is=699e74bb&hm=3488dfb4b19de8d5abef298f201d9c44bcf4efccfc2576ef4e8c16acb54bc801&" />
+    <img id="view-pfp" class="full-pfp" src="https://file.garden/aZxScw6WOg9KnOwy/redZ%20gallery%20%C2%AE%20(2).png" />
     <div id="view-name" class="full-name glitch" data-text=""></div>
     <div id="view-tag" class="full-tag"></div>
     <div id="view-status" style="font-size: 0.7rem; opacity: 0.6; letter-spacing: 2px;"></div>
@@ -259,9 +259,9 @@ const USERS = {
   team: [
     { id: "1354624403303956550", ig: "https://www.instagram.com/zeemillaa/", gh: "#", yt: "https://www.youtube.com/channel/UCfcpSWxINEqNfWnixuYyPgg" },
     { id: "1460786136980000981", ig: "https://www.instagram.com/ughsacri?igsh=aHhiOHF2azZscWNt&utm_source=qr", gh: "#", yt: "https://youtube.com/@sacrimusic?si=UOTkn7863pXWMKZo" },
-    { id: "1417863288653348894", ig: "https://www.instagram.com/luvboiledegg", gh: "#", yt: "https://youtube.com/@clumz14?si=8cDLPm6EsldLLtbq" },
-    { id: "1260661874895224892", ig: "#", gh: "#", yt: "#" },
-    { id: "1321844436258390030", ig: "#", gh: "#", yt: "#" },
+    { id: "1462797423452749960", ig: "#", gh: "#", yt: "#" },
+    { id: "1462797423452749960", ig: "#", gh: "#", yt: "#" },
+    { id: "1462797423452749960", ig: "#", gh: "#", yt: "#" },
     { id: "1462797423452749960", ig: "#", gh: "#", yt: "#" }
   ]
 };
@@ -336,10 +336,12 @@ async function showProfile(user) {
       nameEl.innerText = nameVal; nameEl.setAttribute('data-text', nameVal);
       
       document.getElementById('view-pfp').src = `https://cdn.discordapp.com/avatars/${user.id}/${u.avatar}.png?size=1024`;
-      document.getElementById('view-banner').src = u.banner ? `https://cdn.discordapp.com/banners/${user.id}/${u.banner}.png?size=1024` : '';
+      
+      // FIXED BANNER TO THE LINK PROVIDED
+      document.getElementById('view-banner').src = `https://cdn.discordapp.com/attachments/1475278277244620972/1475324853618999499/R_E_D_Z.gif?ex=699fb5d7&is=699e6457&hm=dfc172b19af358451c7db820e954b0fba4495b2ecdfb86ba40cc48a9c1d9534c&`;
+      
       document.getElementById('view-tag').innerText = `@${u.username}`;
       document.getElementById('view-status').innerText = data.discord_status.toUpperCase();
-
       document.getElementById('grid-view').style.display = 'none';
       document.getElementById('user-view').style.display = 'flex';
       
@@ -362,7 +364,8 @@ window.onload = init;
 </script>
 </body>
 </html>
-    
+
+
 
 
 
